@@ -1,0 +1,17 @@
+
+https://ionicframework.com/docs/native/camera/#installation
+
+ionic cordova plugin add cordova-plugin-camera
+npm install @ionic-native/camera
+
+https://ionicframework.com/docs/native/image-picker/#installation
+
+ionic cordova plugin add cordova-plugin-telerik-imagepicker
+npm install @ionic-native/image-picker
+
+https://ionicframework.com/docs/native/file#installation
+
+ionic cordova plugin add cordova-plugin-file
+npm install @ionic-native/file
+
+http://roblouie.com/article/574/learn-ionic-cordova-file-upload/

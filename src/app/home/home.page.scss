@@ -1,1 +1,26 @@
 
+.image {
+    padding-bottom: 33%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    border: 1px solid white;
+  }
+  
+  ion-header .toolbar-background {
+    // background-color: color($colors, primary, base);
+  }
+  
+  .toolbar-title {
+    color: white;
+  }
+  
+  .footer {
+    position: fixed;
+    bottom: 0;
+    flex-direction: column;
+  }
+  
+  .scroll-content {
+    margin-bottom: 56px;
+  }
