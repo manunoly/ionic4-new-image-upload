@@ -25,7 +25,7 @@ export class ImageUploadService {
   ) { }
 
   public uploadPhoto(imageFileUri: any, name: any): void {
-    this.loading.show('Yükleniyor...');
+    // this.loading.show('Yükleniyor...');
     this.file.resolveLocalFilesystemUrl(imageFileUri).then(entry => {
       console.log('reading entry', entry);
       (entry as FileEntry).file(file => {
@@ -49,10 +49,10 @@ export class ImageUploadService {
 
   private postData(formData: FormData) {
     this.uploadImage(formData).then(() => {
-      this.loading.hide();
+      // this.loading.hide();
       console.log('SUCCESS!');
     }, (err) => {
-      this.loading.hide();
+      // this.loading.hide();
       console.log(err);
     });
   }

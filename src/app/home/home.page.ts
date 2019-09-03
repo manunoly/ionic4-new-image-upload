@@ -37,7 +37,7 @@ export class HomePage implements OnInit {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Upload Image',
       buttons: [        {
-        text: 'From camera',
+        text: 'From Camera',
         handler: () => {
           this.fromCamera(name, type);
         }
