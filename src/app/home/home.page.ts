@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform} from '@ionic/angular';
-import { LoadingService } from './loading.service';
-import { CameraService } from './camera.service';
-import { ImageUploadService } from './image-upload.service';
+import { Platform, ActionSheetController} from '@ionic/angular';
+// import { LoadingService } from './loading.service';
+// import { CameraService } from './camera.service';
+import { ImageUploadService } from '../services/image-upload.service';
+// import { LoadingService } from '../services/loading.service';
+
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-home',
@@ -10,51 +15,86 @@ import { ImageUploadService } from './image-upload.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-  imagePaths: string[];
 
-  // loadingSpinner = this.loadingCtrl.create({ content: 'Loading images...' });
-  // uploadingSpinner = this.loadingCtrl.create({ content: 'Uploading images...' });
-
-  isDesktop: boolean;
-  userid = 1;
-  type = 'avatar';
+  myPhoto: any;
+  options: any;
 
   constructor(
     private image: ImageUploadService,
-    private loading: LoadingService,
-    private camera: CameraService,
+    private camera: Camera,
+    private actionSheetCtrl: ActionSheetController,
+    // private loading: LoadingService,
     public platform: Platform) {}
 
-  async ngOnInit() {
-    this.isDesktop = this.platform.is('android');
-    try {
-      // this.loading.show('Yükleniyor');
-      // await this.loadImagePaths();
-      // this.loading.hide();
-    } catch (error) {
-      // console.log(error);
-      // this.loading.hide();
-    }
+    async ngOnInit() {
+
   }
 
-  async getFromGallery() {
-    this.camera.getImageFromPhone(this.type).then( data => {
-      console.log('Galeri Image Data: ', data);
-      this.image.imageUpload(data, this.type, this.userid).then (res => {
-        console.log('image upload from gallery: ', res);
-      });
+  async presentActionSheet(type: any) {
+    const userid = 1;
+    const random = Math.floor(Math.random() * 100);
+    const name = type + '-photo-u' + userid + '-' + random + '.jpg';
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Upload Image',
+      buttons: [        {
+        text: 'From camera',
+        handler: () => {
+          this.fromCamera(name, type);
+        }
+      },
+      {
+        text: 'From Gallery',
+        handler: () => {
+          this.fromGallery(name, type);
+        }
+      },
+      {
+        text: 'Cancel'
+      }]
+    });
+    await actionSheet.present();
+  }
+
+  private fromCamera(name: any, type: any) {
+    const target = (type === 'avatar') ? 360 : 0;
+    this.camera.getPicture({
+      quality: 70,
+      correctOrientation: true,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      // destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.PNG,
+      mediaType: this.camera.MediaType.PICTURE,
+      sourceType: this.camera.PictureSourceType.CAMERA,
+      saveToPhotoAlbum: true,
+      allowEdit: true,
+      targetWidth: target,
+      targetHeight: target
+    }).then(imageData => {
+      // this.myPhoto = 'data:image/jpeg;base64,' + imageData;
+      this.myPhoto = imageData;
+      this.image.uploadPhoto(imageData, name);
+    }, error => {
+      console.log(JSON.stringify(error));
     });
   }
 
-  async takePhoto() {
-    this.camera.takePhoto(this.type).then( data => {
-      console.log('Take Photo Image Data: ', data);
-      this.image.imageUpload(data, this.type, this.userid).then (res => {
-        console.log('image upload from take photo: ', res);
-      });
+  private fromGallery(name: any, type: any): void {
+    const target = (type === 'avatar') ? 360 : 0;
+    this.camera.getPicture({
+      quality: 70,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      // encodingType: this.camera.EncodingType.PNG,
+      targetWidth: target,
+      targetHeight: target,
+      allowEdit: true
+    }).then(imageData => {
+      this.myPhoto = imageData;
+      this.image.uploadPhoto(imageData, name);
+    }, error => {
+      console.log(JSON.stringify(error));
     });
   }
-
 
 
 }

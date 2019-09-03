@@ -48,11 +48,9 @@ export class UploadPage implements OnInit {
   }
 
   async presentActionSheet() {
-
     const random = Math.floor(Math.random() * 100);
     const type = 'avatar';
     const name = type + '-photo-u' + 1 + '-' + random + '.jpg';
-
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Upload Image',
       buttons: [        {
@@ -133,7 +131,7 @@ export class UploadPage implements OnInit {
   }
 
   private postData(formData: FormData) {
-    this.uploadImage(formData, this.userId).then((result: ApiResponse) => {
+    this.uploadImage(formData).then((result: ApiResponse) => {
       this.dismissLoader();
       console.log('SUCCESS!');
 
@@ -143,11 +141,9 @@ export class UploadPage implements OnInit {
     });
   }
 
-  private uploadImage(formData, userId) {
+  private uploadImage(formData) {
     return new Promise((resolve, reject) => {
-      this.post('ipba/image_upload.php', {
-          id: userId
-        }, formData
+      this.post('ipba/image_upload.php', {}, formData
       ).subscribe(response => {
         resolve(response);
       }, err => {

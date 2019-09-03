@@ -14,9 +14,7 @@ import { File } from '@ionic-native/file/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
 
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
-import { ApiProvider } from '../app/home/api';
-import { CameraService } from './home/camera.service';
-import { ImageUploadService } from './home/image-upload.service';
+import { ImageUploadService } from './services/image-upload.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,8 +30,6 @@ import { ImageUploadService } from './home/image-upload.service';
     Camera,
     File,
     ImagePicker,
-    ApiProvider,
-    CameraService,
     ImageUploadService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

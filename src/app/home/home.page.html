@@ -7,9 +7,8 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-button expand="block" (click)="takePhoto()">Take Photo</ion-button>
-  <br />
-  <ion-button expand="block" (click)="getFromGallery()">Load From Library</ion-button>
+  <ion-button expand="block" (click)="presentActionSheet('avatar')">Upload Avatar</ion-button>
+  <ion-button expand="block" (click)="presentActionSheet('cover')">Upload Cover</ion-button>
 </ion-content>
 
 
