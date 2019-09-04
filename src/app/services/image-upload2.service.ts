@@ -25,8 +25,8 @@ export class ImageUploadService {
   ) { }
 
   async uploadPhoto(imageFileUri: any, name: any) {
+    console.log('imageFileUri: ', imageFileUri);
     return new Promise((resolve, reject) => {
-    // this.loading.show('Yükleniyor...');
     this.file.resolveLocalFilesystemUrl(imageFileUri).then(entry => {
       (entry as FileEntry).file(file => {
         const reader = new FileReader();
@@ -34,15 +34,15 @@ export class ImageUploadService {
         reader.onloadend = () => {
           const imgBlob = new Blob([reader.result], {type: file.type});
           formData.append('file', imgBlob, name);
-            this.post('ipba/image_upload.php', {}, formData
+          this.post('ipba/image_upload.php', {}, formData
             ).subscribe(response => {
               resolve(response);
             }, err => {
               console.log(err);
               reject(err);
-            });        
+            });
           };
-          reader.readAsArrayBuffer(file);
+        reader.readAsArrayBuffer(file);
       });
     }).catch(err => console.log(err));
     });

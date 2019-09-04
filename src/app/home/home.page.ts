@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform, ActionSheetController} from '@ionic/angular';
-// import { LoadingService } from './loading.service';
-// import { CameraService } from './camera.service';
-import { ImageUploadService } from '../services/image-upload.service';
-// import { LoadingService } from '../services/loading.service';
-
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { HttpClient } from '@angular/common/http';
+import { Platform, ActionSheetController } from '@ionic/angular';
+import { ImageUploadService } from '../services/image-upload2.service';
+import { Camera } from '@ionic-native/camera/ngx';
 
 
 @Component({
@@ -24,10 +19,9 @@ export class HomePage implements OnInit {
     private image: ImageUploadService,
     private camera: Camera,
     private actionSheetCtrl: ActionSheetController,
-    // private loading: LoadingService,
-    public platform: Platform) {}
+    public platform: Platform) { }
 
-    async ngOnInit() {
+  async ngOnInit() {
 
   }
 
@@ -37,7 +31,7 @@ export class HomePage implements OnInit {
     const name = type + '-photo-u' + userid + '-' + random + '.jpg';
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Upload Image',
-      buttons: [        {
+      buttons: [{
         text: 'From Camera',
         handler: () => {
           this.fromCamera(name, type);
@@ -59,22 +53,19 @@ export class HomePage implements OnInit {
   private fromCamera(name: any, type: any) {
     const target = (type === 'avatar') ? 360 : 0;
     this.camera.getPicture({
-      quality: 70,
+      quality: 50,
       correctOrientation: true,
+      saveToPhotoAlbum: true,
       destinationType: this.camera.DestinationType.FILE_URI,
-      // destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.PNG,
       mediaType: this.camera.MediaType.PICTURE,
       sourceType: this.camera.PictureSourceType.CAMERA,
-      saveToPhotoAlbum: true,
       allowEdit: true,
       targetWidth: target,
       targetHeight: target
     }).then(imageData => {
-      // this.myPhoto = 'data:image/jpeg;base64,' + imageData;
       this.myPhoto = imageData;
-      this.image.uploadPhoto(imageData, name).then( res => {
-        console.log(type + 'image path: ', res);
+      this.image.uploadPhoto(this.myPhoto, name).then(res => {
         this.lastimage = res;
       });
     }, error => {
@@ -85,10 +76,9 @@ export class HomePage implements OnInit {
   private fromGallery(name: any, type: any): void {
     const target = (type === 'avatar') ? 360 : 0;
     this.camera.getPicture({
-      quality: 70,
+      quality: 50,
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
       destinationType: this.camera.DestinationType.FILE_URI,
-      // encodingType: this.camera.EncodingType.PNG,
       targetWidth: target,
       targetHeight: target,
       allowEdit: true

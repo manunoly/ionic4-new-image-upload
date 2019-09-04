@@ -16,7 +16,7 @@ import { File } from '@ionic-native/file/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
 
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
-import { ImageUploadService } from './services/image-upload.service';
+import { ImageUploadService } from './services/image-upload2.service';
 
 @NgModule({
   declarations: [AppComponent],
