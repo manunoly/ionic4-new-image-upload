@@ -18,6 +18,7 @@ export class HomePage implements OnInit {
 
   myPhoto: any;
   options: any;
+  lastimage: any;
 
   constructor(
     private image: ImageUploadService,
@@ -72,7 +73,10 @@ export class HomePage implements OnInit {
     }).then(imageData => {
       // this.myPhoto = 'data:image/jpeg;base64,' + imageData;
       this.myPhoto = imageData;
-      this.image.uploadPhoto(imageData, name);
+      this.image.uploadPhoto(imageData, name).then( res => {
+        console.log(type + 'image path: ', res);
+        this.lastimage = res;
+      });
     }, error => {
       console.log(JSON.stringify(error));
     });
@@ -90,7 +94,10 @@ export class HomePage implements OnInit {
       allowEdit: true
     }).then(imageData => {
       this.myPhoto = imageData;
-      this.image.uploadPhoto(imageData, name);
+      this.image.uploadPhoto(imageData, name).then(res => {
+        console.log(type + 'image path: ', res);
+        this.lastimage = res;
+      });
     }, error => {
       console.log(JSON.stringify(error));
     });

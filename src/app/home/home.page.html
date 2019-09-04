@@ -7,6 +7,9 @@
 </ion-header>
 
 <ion-content padding>
+
+  <img *ngIf="lastimage" src="{{lastimage}}" style="width: 360px" />
+
   <ion-button expand="block" (click)="presentActionSheet('avatar')">Upload Avatar</ion-button>
   <ion-button expand="block" (click)="presentActionSheet('cover')">Upload Cover</ion-button>
 </ion-content>
